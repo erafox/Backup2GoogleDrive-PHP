@@ -33,7 +33,9 @@ class DriveServiceHelper {
 		return $this->_service->$name;
 	}
 
-	public function createFile( $name, $mime, $description, $content, Google_ParentReference $fileParent = null ) {
+	public function createFile( $name, $mime, $description, $path, Google_ParentReference $fileParent = null ) {
+		$chunkSizeBytes = 512 * 1024 * 1024;
+
 		$file = new Google_DriveFile();
 		$file->setTitle( $name );
 		$file->setDescription( $description );
@@ -42,13 +44,19 @@ class DriveServiceHelper {
 		if( $fileParent ) {
 			$file->setParents( array( $fileParent ) );
 		}
-
-		$createdFile = $this->_service->files->insert($file, array(
-				'data' => $content,
-				'mimeType' => $mime,
-		));
-
-		return $createdFile['id'];
+		//here i dont using file_get_contents because i had problem when upload large file.
+		$media = new Google_MediaFileUpload($mime, null, true, $chunkSizeBytes);
+		$media->setFileSize(filesize($path));
+		
+		$createdFile = $this->_service->files->insert($file, array('mediaUpload' => $media));
+		
+		$status = false;
+	  	$handle = fopen($path, "rb");
+	  	while (!$status && !feof($handle)) {
+	    	$chunk = fread($handle, $chunkSizeBytes);
+	    	$uploadStatus = $media->nextChunk($createdFile, $chunk);
+	  	}
+		//return $createdFile['id']; #error Google_HttpRequest is here, i'm trying fix it
 	}
 
 	public function createFileFromPath( $path, $description, Google_ParentReference $fileParent = null ) {
