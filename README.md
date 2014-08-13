@@ -12,4 +12,4 @@ How it work
 
 Open CLI and run:
 
-# php index.php /path/to/files
+\# php index.php /path/to/files
