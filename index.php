@@ -1,11 +1,11 @@
 <?php
 
 define( 'BACKUP_FOLDER', 'PHPBackups1' );
-define( 'SHARE_WITH_GOOGLE_EMAIL', 'phuongph.911@gmail.com' );
+define( 'SHARE_WITH_GOOGLE_EMAIL', 'youremail@gmail.com' );
 
-define( 'CLIENT_ID',  '222021142112-opie9156kuce5fu5mad93mdif0u3ubeb.apps.googleusercontent.com' );
-define( 'SERVICE_ACCOUNT_NAME', '222021142112-opie9156kuce5fu5mad93mdif0u3ubeb@developer.gserviceaccount.com' );
-define( 'KEY_PATH', dirname(__FILE__).'/'.'f613d9ff1167.p12');
+define( 'CLIENT_ID',  '' );
+define( 'SERVICE_ACCOUNT_NAME', '' );
+define( 'KEY_PATH', dirname(__FILE__).'/'.'');
 
 require_once 'Google/Google_Client.php';
 require_once 'Google/contrib/Google_DriveService.php';
